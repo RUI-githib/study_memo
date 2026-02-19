@@ -1,8 +1,22 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect} from "react";
 import "./App.css";
 import { MemoForm } from "./components/MemoForm";
 import { MemoList } from "./components/MemoList";
 import { TotalTime } from "./components/TotalTime";
+import { supabase } from "./lib/supabase";
+
+useEffect (() => {
+  const fetchMemmos = async () => {
+    const {data, error} = await supabase.from("memos").select("*");
+
+    if (error) {
+      console.error(error);
+    } else { 
+      console.log(data);
+    }
+  };
+  fetchMemmos();
+},[]);
 
 type Memo = {
   content: string;
