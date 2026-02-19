@@ -23,6 +23,8 @@ type Memo = {
   time: number;
 };
 
+console.log("テスト");
+
 function App() {
   const [content, setContent] = useState<string>("");
   const [time, setTime] = useState<number | "">("");
