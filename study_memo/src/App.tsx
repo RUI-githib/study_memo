@@ -50,8 +50,6 @@ function App() {
     [memo],
   );
 
-  console.log("test");
-
   return (
     <>
       <div className="min-h-screen bg-muted/40 py-12">
