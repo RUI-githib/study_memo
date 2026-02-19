@@ -1,35 +1,33 @@
-import { useState, useRef, useMemo, useEffect} from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import "./App.css";
 import { MemoForm } from "./components/MemoForm";
 import { MemoList } from "./components/MemoList";
 import { TotalTime } from "./components/TotalTime";
 import { supabase } from "./lib/supabase";
 
-useEffect (() => {
-  const fetchMemmos = async () => {
-    const {data, error} = await supabase.from("memos").select("*");
-
-    if (error) {
-      console.error(error);
-    } else { 
-      console.log(data);
-    }
-  };
-  fetchMemmos();
-},[]);
-
 type Memo = {
   content: string;
   time: number;
 };
-
-
 
 function App() {
   const [content, setContent] = useState<string>("");
   const [time, setTime] = useState<number | "">("");
   const [memo, setMemo] = useState<Memo[]>([]);
   const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    const fetchMemmos = async () => {
+      const { data, error } = await supabase.from("memos").select("*");
+
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(data);
+      }
+    };
+    fetchMemmos();
+  }, []);
 
   const contentInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
