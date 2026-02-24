@@ -35,7 +35,6 @@ function App() {
     fetchMemmos();
   }, []);
 
-  console.log("supabase追加");
 
   const contentInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
