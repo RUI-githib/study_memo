@@ -18,18 +18,24 @@ function App() {
 
   useEffect(() => {
     const fetchMemmos = async () => {
-      const { data, error } = await supabase.from("memos").select("*");
+      const { data, error } = await supabase
+        .from("study_memo")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error(error);
-      } else {
-        console.log(data);
+        return;
+      }
+
+      if (data) {
+        setMemo(data);
       }
     };
     fetchMemmos();
   }, []);
 
-  console.log('supabase追加');
+  console.log("supabase追加");
 
   const contentInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +48,7 @@ function App() {
     setTime(value === "" ? "" : Number(value));
   };
 
-  const onClickAdd = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const onClickAdd = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!content || time === "" || time <= 0) {
@@ -50,12 +56,21 @@ function App() {
       return;
     }
 
-    const newMemo: Memo = {
-      content: content,
-      time: time,
-    };
+    const { data, error } = await supabase
+      .from("study_memo")
+      .insert({ content, time })
+      .select();
 
-    setMemo([...memo, newMemo]);
+    if (error) {
+      console.log(error);
+      setError("保存に失敗しました");
+      return;
+    }
+
+    if (data) {
+      setMemo((prev) => [...data, ...prev]);
+    }
+
     setContent("");
     setTime("");
     setError("");
