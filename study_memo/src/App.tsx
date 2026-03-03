@@ -17,7 +17,7 @@ function App() {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const fetchMemmos = async () => {
+    const fetchMemos = async () => {
       const { data, error } = await supabase
         .from("study_memo")
         .select("*")
@@ -32,7 +32,7 @@ function App() {
         setMemo(data);
       }
     };
-    fetchMemmos();
+    fetchMemos();
   }, []);
 
 
