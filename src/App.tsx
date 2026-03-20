@@ -4,9 +4,10 @@ import { MemoForm } from "./components/MemoForm";
 import { MemoList } from "./components/MemoList";
 import { TotalTime } from "./components/TotalTime";
 import { supabase } from "./lib/supabase";
+import { StudyChart } from "./components/StudyCharts";
 
 type Memo = {
-  id : string;
+  id: string;
   content: string;
   time: number;
 };
@@ -35,7 +36,6 @@ function App() {
     };
     fetchMemos();
   }, []);
-
 
   const contentInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
@@ -77,10 +77,7 @@ function App() {
   };
 
   const onClickDelete = async (id: string) => {
-    const { error } = await supabase
-    .from("study_memo")
-    .delete()
-    .eq("id", id);
+    const { error } = await supabase.from("study_memo").delete().eq("id", id);
 
     if (error) {
       console.log(error);
@@ -88,7 +85,7 @@ function App() {
     }
 
     setMemo((prev) => prev.filter((item) => item.id !== id));
-  }
+  };
 
   const totalTime = useMemo(
     () => memo.reduce((sum, item) => sum + Number(item.time), 0),
@@ -99,18 +96,25 @@ function App() {
     <>
       <div className="min-h-screen bg-muted/40 py-12">
         <div className="max-w-2xl mx-auto space-y-8 px-4">
-          <MemoForm
-            content={content}
-            time={time}
-            onChangeContent={onChangeContent}
-            onChangeTime={onChangeTime}
-            onClickAdd={onClickAdd}
-            contentInputRef={contentInputRef}
-            timeInputRef={timeInputRef}
-            error={error}
-          />
-          <MemoList memo={memo} onClickDelete={onClickDelete} />
-          <TotalTime totalTime={totalTime} />
+          <div className="flex gap-8">
+            <div className="flex-1 space-y-8">
+              <MemoForm
+                content={content}
+                time={time}
+                onChangeContent={onChangeContent}
+                onChangeTime={onChangeTime}
+                onClickAdd={onClickAdd}
+                contentInputRef={contentInputRef}
+                timeInputRef={timeInputRef}
+                error={error}
+              />
+              <MemoList memo={memo} onClickDelete={onClickDelete} />
+              <TotalTime totalTime={totalTime} />
+            </div>
+            <div className="flex-1">
+              <StudyChart memo={memo}/>
+            </div>
+          </div>
         </div>
       </div>
     </>
