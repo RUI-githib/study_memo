@@ -92,33 +92,27 @@ function App() {
     [memo],
   );
 
-  return (
-    <>
-      <div className="min-h-screen bg-muted/40 py-12">
-        <div className="max-w-2xl mx-auto space-y-8 px-4">
-          <div className="flex gap-8">
-            <div className="flex-1 space-y-8">
-              <MemoForm
-                content={content}
-                time={time}
-                onChangeContent={onChangeContent}
-                onChangeTime={onChangeTime}
-                onClickAdd={onClickAdd}
-                contentInputRef={contentInputRef}
-                timeInputRef={timeInputRef}
-                error={error}
-              />
-              <MemoList memo={memo} onClickDelete={onClickDelete} />
-              <TotalTime totalTime={totalTime} />
-            </div>
-            <div className="flex-1">
-              <StudyChart memo={memo}/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+return (
+  <div className="min-h-screen p-8">
+    <h1 className="text-2xl font-bold mb-8">学習メモ</h1>
+    <div className="grid grid-cols-2 gap-8">
+      
+      <MemoForm
+        content={content}
+        time={time}
+        onChangeContent={onChangeContent}
+        onChangeTime={onChangeTime}
+        onClickAdd={onClickAdd}
+        contentInputRef={contentInputRef}
+        timeInputRef={timeInputRef}
+        error={error}
+      />
+      <StudyChart memo={memo} />
+      <MemoList memo={memo} onClickDelete={onClickDelete} />
+      <TotalTime totalTime={totalTime} />
+    </div>
+  </div>
+);
 }
 
 export default App;
