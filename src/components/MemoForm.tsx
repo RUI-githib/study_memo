@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject,useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +24,19 @@ export const MemoForm = ({
   timeInputRef,
   error,
 }: MemoFormProps) => {
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "/") {
+        e.preventDefault();
+        contentInputRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown",handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  })
+
   return (
       <Card>
         <CardHeader >
