@@ -35,16 +35,21 @@ function App() {
       }
     };
     fetchMemos();
+  }, []);
 
-    const handleKeyDown = (e:KeyboardEvent) => {
-      if (e.shiftKey && e.key === "BackSpace") {
+  useEffect(() => {
+     const handleKeyDown = (e:KeyboardEvent) => {
+      if (e.shiftKey && e.key === "Backspace") {
         e.preventDefault();
         if (memo.length === 0) return;
         const latestMemo = memo[0];
         onClickDelete(latestMemo.id);
       }
     };
-  }, []);
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown",handleKeyDown);
+  },[memo]);
 
   const contentInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
