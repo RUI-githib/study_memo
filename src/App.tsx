@@ -35,6 +35,15 @@ function App() {
       }
     };
     fetchMemos();
+
+    const handleKeyDown = (e:KeyboardEvent) => {
+      if (e.shiftKey && e.key === "BackSpace") {
+        e.preventDefault();
+        if (memo.length === 0) return;
+        const latestMemo = memo[0];
+        onClickDelete(latestMemo.id);
+      }
+    };
   }, []);
 
   const contentInputRef = useRef<HTMLInputElement>(null);
