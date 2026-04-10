@@ -39,9 +39,11 @@ function App() {
 
   useEffect(() => {
      const handleKeyDown = (e:KeyboardEvent) => {
-      if (e.shiftKey && e.key === "Backspace") {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
         e.preventDefault();
+
         if (memo.length === 0) return;
+
         const latestMemo = memo[0];
         onClickDelete(latestMemo.id);
       }
@@ -88,6 +90,8 @@ function App() {
     setContent("");
     setTime("");
     setError("");
+
+    contentInputRef.current?.focus();
   };
 
   const onClickDelete = async (id: string) => {
