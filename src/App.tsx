@@ -110,6 +110,20 @@ function App() {
     [memo],
   );
 
+  const groupedMemo = useMemo(() => {
+    const map = new Map<string, number>();
+
+    memo.forEach((item) => {
+      const prev = map.get(item.content) || 0;
+      map.set(item.content, prev + Number(item.time));
+    });
+
+    return Array.from(map.entries()).map(([content,time]) => ({
+      content,
+      time,
+    }));
+  },[memo]);
+
 return (
   <div className="min-h-screen p-8">
     <h1 className="text-2xl font-bold mb-8">学習メモ</h1>
@@ -125,7 +139,7 @@ return (
         timeInputRef={timeInputRef}
         error={error}
       />
-      <StudyChart memo={memo} />
+      <StudyChart memo={groupedMemo} />
       <MemoList memo={memo} onClickDelete={onClickDelete} />
       <TotalTime totalTime={totalTime} />
     </div>
