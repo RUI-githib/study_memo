@@ -126,8 +126,7 @@ function App() {
 
 return (
   <div className="min-h-screen p-8">
-    <h1 className="text-2xl font-bold mb-8">学習メモ</h1>
-    <div className="grid grid-cols-2 gap-8">
+    <div className="max-w-6xl mx-auto grid grid-cols-2 gap-3 ">
       
       <MemoForm
         content={content}
