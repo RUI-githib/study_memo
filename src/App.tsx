@@ -14,7 +14,7 @@ type Memo = {
 
 function App() {
   const [content, setContent] = useState<string>("");
-  const [time, setTime] = useState<number | "">("");
+  const [time, setTime] = useState<number>(0);
   const [memo, setMemo] = useState<Memo[]>([]);
   const [error, setError] = useState<string>("");
 
@@ -61,20 +61,22 @@ function App() {
   };
   const onChangeTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setTime(value === "" ? "" : Number(value));
+    setTime(value === "" ? 0 : Number(value));
   };
 
   const onClickAdd = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!content || time === "" || time <= 0) {
-      setError("学習内容と時間を入力してください");
+    const trimmedContent = content.trim();
+
+    if (!trimmedContent || time <= 0) {
+      setError("学習時間と内容を正しく入力してください");
       return;
     }
 
     const { data, error } = await supabase
       .from("study_memo")
-      .insert({ content, time })
+      .insert({ content: trimmedContent, time })
       .select();
 
     if (error) {
@@ -88,7 +90,7 @@ function App() {
     }
 
     setContent("");
-    setTime("");
+    setTime(0);
     setError("");
 
     contentInputRef.current?.focus();
@@ -131,7 +133,7 @@ return (
       
       <MemoForm
         content={content}
-        time={time}
+        time={time === 0 ? "" : time}
         onChangeContent={onChangeContent}
         onChangeTime={onChangeTime}
         onClickAdd={onClickAdd}
