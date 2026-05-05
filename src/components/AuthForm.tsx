@@ -85,16 +85,28 @@ export function AuthForm() {
 
           <button
             type="submit"
-            onClick={() => {
-              setMode((prev) => (prev === "signIn" ? "signUp" : "signIn"));
-              setError("");
-              setMessage("");
-            }}
-            className="mt-4 text-sm text-blue-600 underline"
+            disabled={loading}
+            className="w-full bg-blue-600 text-wihte rounded px-4 py-2 dsabled:opacity-50"
           >
-            {mode === "signIn" ? "新規登録はこちら" : "ログインはこちら"}
+            {loading
+              ? "処理中..."
+              : mode === "signIn"
+                ? "ログイン"
+                : "新規登録"}
           </button>
         </form>
+
+        <button
+          type="button"
+          onClick={() => {
+            setMode((prev) => (prev === "signIn" ? "signUp" : "signIn"));
+            setError("");
+            setMessage("");
+          }}
+          className="mt-4 text-sm text-blue-600 underline"
+        >
+          {mode === "signIn" ? "新規登録はこちら" : "ログインはこちら"}
+        </button>
       </div>
     </div>
   );
