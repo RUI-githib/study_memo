@@ -5,6 +5,8 @@ import { MemoList } from "./components/MemoList";
 import { TotalTime } from "./components/TotalTime";
 import { supabase } from "./lib/supabase";
 import { StudyChart } from "./components/StudyCharts";
+import type {Session} from "@supabase/supabase-js";
+import {AuthForm} from "./components/AuthForm";
 
 type Memo = {
   id: string;
@@ -17,6 +19,37 @@ function App() {
   const [time, setTime] = useState<number>(0);
   const [memo, setMemo] = useState<Memo[]>([]);
   const [error, setError] = useState<string>("");
+  const [session, setSession] = useState<Session | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    const getInitialSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setAuthLoading(false);
+    };
+
+    void getInitialSession();
+
+    const { 
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event,session) => {
+      setSession(session);
+      setAuthLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    }
+  },[]);
+
+  if (authLoading){
+    return <div className="p-8">読み込み中...</div>;
+  }
+
+  if (!session) {
+    return <AuthForm />;
+  }
 
   useEffect(() => {
     const fetchMemos = async () => {
