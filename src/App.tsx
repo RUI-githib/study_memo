@@ -22,6 +22,9 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  const contentInputRef = useRef<HTMLInputElement>(null);
+  const timeInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const getInitialSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -43,15 +46,9 @@ function App() {
     }
   },[]);
 
-  if (authLoading){
-    return <div className="p-8">読み込み中...</div>;
-  }
-
-  if (!session) {
-    return <AuthForm />;
-  }
-
   useEffect(() => {
+    if (!session) return;
+
     const fetchMemos = async () => {
       const { data, error } = await supabase
         .from("study_memo")
@@ -68,7 +65,7 @@ function App() {
       }
     };
     fetchMemos();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
      const handleKeyDown = (e:KeyboardEvent) => {
@@ -86,9 +83,6 @@ function App() {
     return () => document.removeEventListener("keydown",handleKeyDown);
   },[memo]);
 
-  const contentInputRef = useRef<HTMLInputElement>(null);
-  const timeInputRef = useRef<HTMLInputElement>(null);
-
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
@@ -97,8 +91,13 @@ function App() {
     setTime(value === "" ? 0 : Number(value));
   };
 
-  const onClickAdd = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const onClickAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!session) {
+      setError("ログインが必要です");
+      return;
+    }
 
     const trimmedContent = content.trim();
 
@@ -109,7 +108,7 @@ function App() {
 
     const { data, error } = await supabase
       .from("study_memo")
-      .insert({ content: trimmedContent, time })
+      .insert({ content: trimmedContent, time, user_id: session.user.id })
       .select();
 
     if (error) {
@@ -159,6 +158,13 @@ function App() {
     }));
   },[memo]);
 
+    if (authLoading){
+    return <div className="p-8">読み込み中...</div>;
+  }
+
+  if (!session) {
+    return <AuthForm />;
+  }
 
 return (
   <div className="min-h-screen p-8">
