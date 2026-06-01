@@ -57,6 +57,7 @@ function App() {
 
       if (error) {
         console.error(error);
+        setError("学習内容の取得に失敗しました。");
         return;
       }
 
@@ -133,6 +134,7 @@ function App() {
 
     if (error) {
       console.log(error);
+      setError("削除に失敗しました。");
       return;
     }
 
