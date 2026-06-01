@@ -61,7 +61,7 @@ export const MemoForm = ({
               ></Input>
             </div>
             <div>
-              <label className="text-sm font-medium">学習時間</label>
+              <label className="text-sm font-medium">学習時間(分)</label>
               <Input
                 type="number"
                 value={time}
@@ -74,7 +74,7 @@ export const MemoForm = ({
                   }
                 }}
               ></Input>
-              分
+              
             </div>
             {error && <p className="text-sm textdestructive">{error}</p>}
             <Button type="submit" className="w-full">登録</Button>
