@@ -5,26 +5,26 @@ webアプリ開発（フロントエンド中心）の経験があります。
 
 ## 制作物：学習記録アプリ
 # Frontend
--TypeScript
--React
--HTML/CSS
--Tailwind CSS
+- TypeScript
+- React
+- HTML/CSS
+- Tailwind CSS
 
 # Database
--Supabase
+- Supabase
 
 # Tools
--Git / Github
--VScode
+- Git / Github
+- VScode
 
 # 主な機能
--学習内容の記録
--学習時間の記録
--棒グラフの生成
--合計学習時間を算出
--ユーザー認証
+- 学習内容の記録
+- 学習時間の記録
+- 棒グラフの生成
+- 合計学習時間を算出
+- ユーザー認証
 
 # 工夫した点
--認証情報を自前のDBに保存・管理するのではなく、Supabase Authを利用。セキュリティ面で安心
--API通信中の「連打による二重リクエスト」を防止するために、認証処理中はボタンを押せないように設計
--
+- 認証情報を自前のDBに保存・管理するのではなく、Supabase Authを利用。セキュリティ面で安心
+- API通信中の「連打による二重リクエスト」を防止するために、認証処理中はボタンを押せないように設計
+
